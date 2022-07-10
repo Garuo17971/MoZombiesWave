@@ -1,0 +1,20 @@
+[
+  {
+    "modid": "mozombies_wave",
+    "name": "Mo'Zombies Wave",
+    "description": " Remake of the outdated mod from version 1.7.10 of the game, adds news zombies to the game,  14 mobs in all",
+    "version": "${version}",
+    "credits": " All credits from creativity go to the original creator, coocoo617.",
+    "logoFile": "logo.png",
+    "mcversion": "${mcversion}",
+    "url": "https://www.curseforge.com/",
+    "updateUrl": "",
+    "authorList": [
+      "Wilyicaro"
+    ],
+    "dependencies": [],
+    "dependants": [],
+    "requiredMods": [],
+    "useDependencyInformation": "true"
+  }
+]

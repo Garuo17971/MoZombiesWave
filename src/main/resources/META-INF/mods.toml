@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="GNU"
+
+[[mods]]
+modId="mozombies_wave"
+version="${file.jarVersion}"
+displayName="Mo'Zombies Wave"
+credits=" All credits from creativity go to the original creator, coocoo617."
+displayURL="https://www.curseforge.com/minecraft/mc-mods/better-furnaces-reforged/"
+logoFile="logo.png"
+authors="Wilyicaro"
+description='''
+Remake of the outdated mod from version 1.7.10 of the game, adds news zombies to the game,  14 mobs in all
+'''
+
+[[dependencies.mozombies_wave]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="1.18.,"
+    ordering="NONE"
+    side="BOTH"
+
+
+
+
+
