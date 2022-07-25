@@ -15,6 +15,7 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -257,6 +258,11 @@ import java.util.UUID;
 			return SoundEvent.REGISTRY.getObject(new ResourceLocation("entity.generic.death"));
 		}
 
+		public double getYOffset()
+		{
+			return this.isChild() ? 0.0D : -0.45D;
+		}
+
 		@Nullable
 		@Override
 		public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
@@ -269,26 +275,23 @@ import java.util.UUID;
 				EntitySurvivor.GroupData entityzombie$groupdata = (EntitySurvivor.GroupData) livingdata;
 
 				setType((entityzombie$groupdata.getType));
-				if (entityzombie$groupdata.isChild) {
-					this.setChild(true);
-
-					if ((double) this.world.rand.nextFloat() < 0.05D) {
-						List<EntityChicken> list = this.world.<EntityChicken>getEntitiesWithinAABB(EntityChicken.class, this.getEntityBoundingBox().grow(5.0D, 3.0D, 5.0D), EntitySelectors.IS_STANDALONE);
-
-						if (!list.isEmpty()) {
-							EntityChicken entitychicken = list.get(0);
-							entitychicken.setChickenJockey(true);
-							this.startRiding(entitychicken);
-						}
-					} else if ((double) this.world.rand.nextFloat() < 0.05D) {
-						EntityChicken entitychicken1 = new EntityChicken(this.world);
-						entitychicken1.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-						entitychicken1.onInitialSpawn(difficulty, (IEntityLivingData) null);
-						entitychicken1.setChickenJockey(true);
-						this.world.spawnEntity(entitychicken1);
-						this.startRiding(entitychicken1);
+				if (entityzombie$groupdata.isChild) this.setChild(true);
+				if ((double) this.world.rand.nextFloat() < 0.05D) {
+					List<EntityHorse> list = this.world.<EntityHorse>getEntitiesWithinAABB(EntityHorse.class, this.getEntityBoundingBox().grow(5.0D, 3.0D, 5.0D), EntitySelectors.IS_STANDALONE);
+					EntityHorse entityHorse;
+					if (!list.isEmpty())
+						entityHorse = list.get(0);
+					 else{
+						entityHorse = new EntityHorse(world);
+						entityHorse.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+						entityHorse.onInitialSpawn(difficulty, (IEntityLivingData) null);
+						this.world.spawnEntity(entityHorse);
 					}
+					entityHorse.setHorseSaddled(true);
+					this.startRiding(entityHorse);
+
 				}
+
 
 			}
 			this.setEquipmentBasedOnDifficulty(difficulty);
