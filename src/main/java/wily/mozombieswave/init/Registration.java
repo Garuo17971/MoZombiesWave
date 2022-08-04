@@ -1,13 +1,20 @@
 package wily.mozombieswave.init;
 
+import com.mojang.datafixers.util.Either;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,21 +25,38 @@ import net.minecraftforge.registries.RegistryObject;
 import wily.mozombieswave.MozombiesWaveMod;
 import wily.mozombieswave.entity.*;
 import wily.mozombieswave.item.DiscoGlassesMaterial;
+import wily.mozombieswave.level.OverworldSpawnBiomeModifier;
+
+import java.util.List;
+import java.util.function.Function;
 
 
 public class Registration {
 
 	private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MozombiesWaveMod.MODID);
 	private static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MozombiesWaveMod.MODID);
-	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, MozombiesWaveMod.MODID);
+	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MozombiesWaveMod.MODID);
+
+	public static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_MODIFIER_SERIALIZERS = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MozombiesWaveMod.MODID);
 
 	public static void init() {
 		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		ENTITIES.register(eventBus);
 		SOUNDS.register(eventBus);
 		ITEMS.register(eventBus);
+		BIOME_MODIFIER_SERIALIZERS.register(eventBus);
 
 	}
+	public static RegistryObject<Codec<OverworldSpawnBiomeModifier>> EXAMPLE_CODEC = BIOME_MODIFIER_SERIALIZERS.register("spawn_all_biomes", () ->
+
+			RecordCodecBuilder.create(builder -> builder.group(
+					Biome.LIST_CODEC.fieldOf("biomes").forGetter(OverworldSpawnBiomeModifier::biomes),
+					new ExtraCodecs.EitherCodec<>(MobSpawnSettings.SpawnerData.CODEC.listOf(), MobSpawnSettings.SpawnerData.CODEC).xmap(
+							either -> either.map(Function.identity(), List::of), // convert list/singleton to list when decoding
+							list -> list.size() == 1 ? Either.right(list.get(0)) : Either.left(list) // convert list to singleton/list when encoding
+					).fieldOf("spawners").forGetter(OverworldSpawnBiomeModifier::spawners)
+			).apply(builder, OverworldSpawnBiomeModifier::new))
+	);
 
 	public static final RegistryObject<Item> DISCO_GLASSES = ITEMS.register("disco_glasses", () -> new ArmorItem(DiscoGlassesMaterial.GLASSES, EquipmentSlot.HEAD, new Item.Properties().tab(ModObjects.ITEM_GROUP)));
 

@@ -1,0 +1,85 @@
+{
+    "type": "mozombies_wave:spawn_all_biomes", 
+    "biomes": "#minecraft:is_nether",
+    "spawners":
+    [
+      {
+        "type": "mozombies_wave:survivor",
+        "weight": 3, 
+        "minCount": 1, 
+        "maxCount": 4
+      },
+    {
+        "type": "mozombies_wave:disco_zombie",
+        "weight": 6, 
+        "minCount": 1, 
+        "maxCount": 4
+      },
+      {
+        "type": "mozombies_wave:zombie_creeper",
+        "weight": 3, 
+        "minCount": 1, 
+        "maxCount": 3
+      },
+      {
+        "type": "mozombies_wave:zombie_dwarf",
+        "weight": 10, 
+        "minCount": 1, 
+        "maxCount": 5
+      },
+      {
+        "type": "mozombies_wave:zombie_chef",
+        "weight": 8, 
+        "minCount": 1, 
+        "maxCount": 4
+      },
+      {
+        "type": "mozombies_wave:zombie_cyborg",
+        "weight": 5, 
+        "minCount": 1, 
+        "maxCount": 4
+      },
+      {
+        "type": "mozombies_wave:zombie_herobrine",
+        "weight": 1, 
+        "minCount": 1, 
+        "maxCount": 1
+      },    {
+        "type": "mozombies_wave:zombie_notch",
+        "weight": 2, 
+        "minCount": 1, 
+        "maxCount": 1
+      },
+      {
+        "type": "mozombies_wave:zombie_king",
+        "weight": 4, 
+        "minCount": 1, 
+        "maxCount": 2
+      },
+      {
+        "type": "mozombies_wave:zombie_knight",
+        "weight": 3, 
+        "minCount": 1, 
+        "maxCount": 4
+      },
+      {
+        "type": "mozombies_wave:zombie_miner",
+        "weight": 4, 
+        "minCount": 2, 
+        "maxCount": 7
+      },
+      {
+        "type": "mozombies_wave:zombie_pa",
+        "weight": 5, 
+        "minCount": 1, 
+        "maxCount": 2
+      },
+      {
+        "type": "mozombies_wave:zombie_pirate",
+        "weight": 7, 
+        "minCount": 1, 
+        "maxCount": 3
+      }
+
+    ]
+  }

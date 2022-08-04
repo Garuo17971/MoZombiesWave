@@ -22,8 +22,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraftforge.common.world.MobSpawnSettingsBuilder;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -37,33 +37,8 @@ import static wily.mozombieswave.MozombiesWaveMod.MODID;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModObjects {
 
-
-    @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void onBiomeLoad(BiomeLoadingEvent event) {
-        MobSpawnSettingsBuilder spawns = event.getSpawns();
-        if (event.getCategory() == Biome.BiomeCategory.TAIGA || event.getCategory() == Biome.BiomeCategory.DESERT)
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.GIANT, 3, 1, 2));
-        if (event.getCategory() == Biome.BiomeCategory.NETHER)
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(Registration.NETHER_ZOMBIE.get(), 3, 1, 4));
-        else if (event.getCategory() != Biome.BiomeCategory.THEEND){
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(Registration.DISCO_ZOMBIE.get(), 6, 1, 4));
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(Registration.ZOMBIE_CREEPER.get(), 3, 1, 3));
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(Registration.ZOMBIE_DWARF.get(), 10, 1, 5));
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(Registration.ZOMBIE_CHEF.get(), 8, 1, 4));
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(Registration.ZOMBIE_CYBORG.get(), 5, 1, 4));
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(Registration.ZOMBIE_HEROBRINE.get(), 1, 1, 1));
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(Registration.ZOMBIE_NOTCH.get(), 2, 1, 1));
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(Registration.ZOMBIE_KING.get(), 4, 1, 2));
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(Registration.ZOMBIE_KNIGHT.get(), 3, 1, 4));
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(Registration.ZOMBIE_MINER.get(), 4, 2, 7));
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(Registration.ZOMBIE_PA.get(), 5, 1, 2));
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(Registration.ZOMBIE_PIRATE.get(), 7, 1, 3));
-        }
-        spawns.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(Registration.SURVIVOR.get(), 3, 1, 4));
-
-    }
     @SubscribeEvent
-    public static void onEntityJoinWorld(final EntityJoinWorldEvent event) {
+    public static void onEntityJoinWorld(final EntityJoinLevelEvent event) {
         if(event.getEntity() instanceof Giant giant) {
             giant.goalSelector.addGoal(1, new LookAtPlayerGoal(giant, Player.class, 8.0F));
             giant.goalSelector.addGoal(1, new RandomLookAroundGoal(giant));

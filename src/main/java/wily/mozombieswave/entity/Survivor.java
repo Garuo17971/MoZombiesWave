@@ -22,6 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Difficulty;
@@ -39,6 +40,7 @@ import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -101,12 +103,12 @@ public class Survivor extends AgeableMob implements NeutralMob {
 			this.getEntityData().set(DATA_TYPE_ID, type);
 		}
 
-		protected int getExperienceReward(Player p_70693_1_) {
+		public int getExperienceReward() {
 			if (this.isBaby()) {
 				this.xpReward = (int)((float)this.xpReward * 2.5F);
 			}
 
-			return super.getExperienceReward(p_70693_1_);
+			return super.getExperienceReward();
 		}
 		@Override
 		public int getRemainingPersistentAngerTime() {
@@ -134,6 +136,7 @@ public class Survivor extends AgeableMob implements NeutralMob {
 
 
 		public void addAdditionalSaveData(CompoundTag p_213281_1_) {
+
 			super.addAdditionalSaveData(p_213281_1_);
 			p_213281_1_.putInt("Type", getSurvivorType());
 			this.addPersistentAngerSaveData(p_213281_1_);
@@ -158,7 +161,7 @@ public class Survivor extends AgeableMob implements NeutralMob {
 		}
 
 		protected void updateNoActionTime() {
-			float f = this.getBrightness();
+			float f = this.getLightLevelDependentMagicValue();
 			if (f > 0.5F) {
 				this.noActionTime += 2;
 			}
@@ -221,9 +224,9 @@ public class Survivor extends AgeableMob implements NeutralMob {
 			});
 		}
 
-		protected void populateDefaultEquipmentSlots(DifficultyInstance difficulty)
+		protected void populateDefaultEquipmentSlots( DifficultyInstance difficulty)
 		{
-			super.populateDefaultEquipmentSlots(difficulty);
+			super.populateDefaultEquipmentSlots(random, difficulty);
 			if (this.random.nextFloat() < (this.level.getDifficulty() == Difficulty.HARD ? 0.45F : 0.20F)) {
 				{
 					int i = this.random.nextInt(3);

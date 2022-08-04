@@ -4,6 +4,7 @@ package wily.mozombieswave.entity;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
@@ -31,7 +32,6 @@ import java.util.Random;
 		public void tick() {
 			super.tick();
 
-			Random random = this.random;
 			if (true)
 				for (int l = 0; l < 1; ++l) {
 					double d0 = (getX() + random.nextFloat());

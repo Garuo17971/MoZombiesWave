@@ -3,7 +3,7 @@ package wily.mozombieswave;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -92,7 +92,7 @@ public class Config {
 
 
     @SubscribeEvent
-    public static void onWorldLoad(final WorldEvent.Load event) {
+    public static void onWorldLoad(final LevelEvent.Load event) {
         Config.loadConfig(Config.CLIENT_CONFIG, FMLPaths.CONFIGDIR.get().resolve(MozombiesWaveMod.MODID + "-client.toml"));
 //        Config.loadConfig(Config.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve(MozombiesWaveMod.MODID + ".toml"));
     }
