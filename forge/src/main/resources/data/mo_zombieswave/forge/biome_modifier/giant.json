@@ -1,0 +1,11 @@
+{
+    "type": "forge:add_spawns", 
+    "biomes": ["minecraft:taiga","minecraft:snowy_taiga","minecraft:old_growth_pine_taiga","minecraft:old_growth_spruce_taiga","minecraft:forest"],
+    "spawners":
+    {
+      "type": "minecraft:giant",
+      "weight": 3, 
+      "minCount": 1, 
+      "maxCount": 4
+    }
+  }
