@@ -5,23 +5,22 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.MobSpawnSettingsBuilder;
 import net.minecraftforge.common.world.ModifiableBiomeInfo;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -30,7 +29,6 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import wily.mozombieswave.MoZombiesPlatform;
 import wily.mozombieswave.MoZombiesWave;
 import wily.mozombieswave.init.Registration;
 
@@ -39,10 +37,10 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static wily.mozombieswave.init.Registration.getModId;
-
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class MoZombiesPlatformImpl {
+
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MoZombiesWave.MODID);
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MoZombiesWave.MODID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MoZombiesWave.MODID);
@@ -74,6 +72,9 @@ public class MoZombiesPlatformImpl {
 
     public static Supplier<SoundEvent> registerSoundEvent(String name, Supplier<SoundEvent> sound) {
         return SOUNDS.register(name,sound);
+    }
+    public static Supplier<CreativeModeTab> registerCreativeTab(String name, Supplier<CreativeModeTab> sound) {
+        return CREATIVE_TABS.register(name,sound);
     }
     @SubscribeEvent
     public static void onEntityJoinWorld(final EntityJoinLevelEvent event){

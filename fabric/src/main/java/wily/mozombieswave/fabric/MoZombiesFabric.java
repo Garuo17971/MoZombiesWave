@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRe
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.item.CreativeModeTab;
 import wily.mozombieswave.MoZombiesPlatform;
 import wily.mozombieswave.MoZombiesWave;
@@ -22,11 +23,11 @@ import static wily.mozombieswave.init.Registration.getModId;
 
 public class MoZombiesFabric implements ModInitializer {
 
-    public static final CreativeModeTab CREATIVE_TAB = Registration.getPlatformCreativeModeTab(FabricItemGroup.builder(getModId("tab")));
     @Override
     public void onInitialize() {
+
         MoZombiesWave.init();
-        MoZombiesWave.common();
+        Registration.registerEntitiesSpawnPlacement(SpawnPlacements::register);
         ServerEntityEvents.ENTITY_LOAD.register((Registration::onEntityJoinWorld));
         Registration.registerEntityAttributes( (e,a)->FabricDefaultAttributeRegistry.register(e,a.get()));
         BiomeModifications.addSpawn( (c)-> c.hasTag(BiomeTags.IS_TAIGA) || c.hasTag(BiomeTags.HAS_DESERT_PYRAMID), MobCategory.MONSTER, EntityType.GIANT, 3, 1, 2);

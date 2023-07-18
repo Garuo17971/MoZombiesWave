@@ -42,24 +42,4 @@ public class MoZombiesWave {
 	}
 
 
-
-	public static void common() {
-			LOGGER.info("Success started spawn placements register");
-					SpawnPlacements.register(Registration.DISCO_ZOMBIE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
-					SpawnPlacements.register(Registration.NETHER_ZOMBIE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
-					SpawnPlacements.register(Registration.ZOMBIE_DWARF.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
-					SpawnPlacements.register(Registration.ZOMBIE_CHEF.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
-					SpawnPlacements.register(Registration.ZOMBIE_CYBORG.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
-					SpawnPlacements.register(Registration.ZOMBIE_HEROBRINE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
-					SpawnPlacements.register(Registration.ZOMBIE_KING.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
-					SpawnPlacements.register(Registration.ZOMBIE_KNIGHT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
-					SpawnPlacements.register(Registration.ZOMBIE_MINER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
-					SpawnPlacements.register(Registration.ZOMBIE_PA.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
-					SpawnPlacements.register(Registration.ZOMBIE_PIRATE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
-					SpawnPlacements.register(Registration.ZOMBIE_CREEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ZombieCreeper::checkMonsterSpawnRules);
-					SpawnPlacements.register(Registration.SURVIVOR.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Survivor::checkMobSpawnRules);
-
-	}
-
-
 }

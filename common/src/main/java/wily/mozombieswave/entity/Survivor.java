@@ -143,8 +143,8 @@ public class Survivor extends AgeableMob implements NeutralMob {
 		public void readAdditionalSaveData(CompoundTag p_70037_1_) {
 			super.readAdditionalSaveData(p_70037_1_);
 			this.setSurvivorType(p_70037_1_.getInt("Type"));
-			if(!level.isClientSide) //FORGE: allow this entity to be read from nbt on client. (Fixes MC-189565)
-				this.readPersistentAngerSaveData((ServerLevel)this.level, p_70037_1_);
+			if(!level().isClientSide)
+				this.readPersistentAngerSaveData(this.level(), p_70037_1_);
 		}
 		public void setTarget(@Nullable LivingEntity p_70624_1_) {
 			if (this.getTarget() == null && p_70624_1_ != null) {
@@ -171,7 +171,7 @@ public class Survivor extends AgeableMob implements NeutralMob {
 	public void aiStep() {
 			this.updateSwingTime();
 			this.updateNoActionTime();
-			if (getMainHandItem().isEdible() && getHealth() <= getMaxHealth()) eat(level, getMainHandItem());
+			if (getMainHandItem().isEdible() && getHealth() <= getMaxHealth()) eat(level(), getMainHandItem());
 			super.aiStep();
 		}
 		protected void customServerAiStep() {
@@ -185,7 +185,7 @@ public class Survivor extends AgeableMob implements NeutralMob {
 				modifiableattributeinstance.removeModifier(SPEED_MODIFIER_ATTACKING);
 			}
 
-			this.updatePersistentAnger((ServerLevel)this.level, true);
+			this.updatePersistentAnger((ServerLevel)this.level(), true);
 			if (this.getTarget() != null) {
 				this.maybeAlertOthers();
 			}
@@ -211,13 +211,7 @@ public class Survivor extends AgeableMob implements NeutralMob {
 		private void alertOthers() {
 			double d0 = this.getAttributeValue(Attributes.FOLLOW_RANGE);
 			AABB axisalignedbb = AABB.unitCubeFromLowerCorner(this.position()).inflate(d0, 10.0D, d0);
-			this.level.getEntitiesOfClass(Survivor.class, axisalignedbb).stream().filter((p_241408_1_) -> {
-				return p_241408_1_ != this;
-			}).filter((p_241407_0_) -> {
-				return p_241407_0_.getTarget() == null;
-			}).filter((p_241406_1_) -> {
-				return !p_241406_1_.isAlliedTo(this.getTarget());
-			}).forEach((p_241405_1_) -> {
+			this.level().getEntitiesOfClass(Survivor.class, axisalignedbb).stream().filter((p_241408_1_) -> p_241408_1_ != this).filter((p_241407_0_) -> p_241407_0_.getTarget() == null).filter((p_241406_1_) -> !p_241406_1_.isAlliedTo(this.getTarget())).forEach((p_241405_1_) -> {
 				p_241405_1_.setTarget(this.getTarget());
 			});
 		}
@@ -225,7 +219,7 @@ public class Survivor extends AgeableMob implements NeutralMob {
 		protected void populateDefaultEquipmentSlots(RandomSource randomSource, DifficultyInstance difficulty)
 		{
 			super.populateDefaultEquipmentSlots(random, difficulty);
-			if (this.random.nextFloat() < (this.level.getDifficulty() == Difficulty.HARD ? 0.45F : 0.20F)) {
+			if (this.random.nextFloat() < (this.level().getDifficulty() == Difficulty.HARD ? 0.45F : 0.20F)) {
 				{
 					int i = this.random.nextInt(3);
 
@@ -273,7 +267,7 @@ public class Survivor extends AgeableMob implements NeutralMob {
 							this.startRiding(Horse);
 						}
 					} else if ((double) p_146746_.getRandom().nextFloat() < 0.05D) {
-						Horse Horse1 = EntityType.HORSE.create(this.level);
+						Horse Horse1 = EntityType.HORSE.create(this.level());
 						Horse1.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
 						Horse1.finalizeSpawn(p_146746_, p_146747_, MobSpawnType.JOCKEY, (SpawnGroupData) null, (CompoundTag) null);
 						Horse1.setTamed(true);

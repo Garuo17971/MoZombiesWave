@@ -41,7 +41,7 @@ import java.util.Random;
 					double d3 = (random.nextFloat() - 0.5D) * 0.25D;
 					double d4 = (random.nextFloat() - 0.5D) * 0.25D;
 					double d5 = (random.nextFloat() - 0.5D) * 0.25D;
-					level.addParticle(ParticleTypes.NOTE, d0, d1, d2, d3, d4, d5);
+					level().addParticle(ParticleTypes.NOTE, d0, d1, d2, d3, d4, d5);
 				}
 		}
 

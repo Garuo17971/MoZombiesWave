@@ -1,19 +1,14 @@
 package wily.mozombieswave.forge;
 
-import com.mojang.serialization.Codec;
-import net.minecraft.core.Holder;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.MobSpawnSettings;
-import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ModifiableBiomeInfo;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import wily.mozombieswave.MoZombiesPlatform;
 import wily.mozombieswave.MoZombiesWave;
@@ -34,11 +29,15 @@ public class MoZombiesForge {
         MoZombiesPlatformImpl.init(MOD_EVENT_BUS);
     }
     @SubscribeEvent
-    public static void setupCommon(FMLCommonSetupEvent event){
-        event.enqueueWork(MoZombiesWave::common);
+    public static void registerEntitiesSpawnPlacement(SpawnPlacementRegisterEvent event){
+        Registration.registerEntitiesSpawnPlacement(new MoZombiesPlatform.SpawnPlacementsRegister() {
+            public <T extends Mob> void register(EntityType<T> entityType, SpawnPlacements.Type type, Heightmap.Types types, SpawnPlacements.SpawnPredicate<T> spawnPredicate) {
+                event.register(entityType, type, types, spawnPredicate, SpawnPlacementRegisterEvent.Operation.AND);
+            }
+        });
     }
     @SubscribeEvent
-    public static void setup(final EntityAttributeCreationEvent event) {
+    public static void registerEntityAttributes(final EntityAttributeCreationEvent event) {
         Registration.registerEntityAttributes(((type, supplier) -> event.put(type,supplier.get().build())));
     }
 

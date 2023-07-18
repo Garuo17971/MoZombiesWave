@@ -186,11 +186,11 @@ public class ZombieCreeper extends Creeper {
 		super.aiStep();
 	}
 	public void tick() {
-		if (!this.level.isClientSide && this.isAlive() && this.isConverting()) {
+		if (!this.level().isClientSide && this.isAlive() && this.isConverting()) {
 			int i = this.getConversionProgress();
 			this.creeperConversionTime -= i;
 			if (this.creeperConversionTime <= 0) {
-				this.finishConversion((ServerLevel)this.level);
+				this.finishConversion((ServerLevel)this.level());
 			}
 		}
 
@@ -207,7 +207,7 @@ public class ZombieCreeper extends Creeper {
 					itemstack.shrink(1);
 				}
 
-				if (!this.level.isClientSide) {
+				if (!this.level().isClientSide) {
 					this.startConverting(p_230254_1_.getUUID(), this.random.nextInt(2401) + 3600);
 				}
 
@@ -228,7 +228,7 @@ public class ZombieCreeper extends Creeper {
 			for(int k = (int)this.getX() - 4; k < (int)this.getX() + 4 && j < 14; ++k) {
 				for(int l = (int)this.getY() - 4; l < (int)this.getY() + 4 && j < 14; ++l) {
 					for(int i1 = (int)this.getZ() - 4; i1 < (int)this.getZ() + 4 && j < 14; ++i1) {
-						Block block = this.level.getBlockState(blockpos$mutable.set(k, l, i1)).getBlock();
+						Block block = this.level().getBlockState(blockpos$mutable.set(k, l, i1)).getBlock();
 						if (block == Blocks.IRON_BARS || block instanceof BedBlock) {
 							if (this.random.nextFloat() < 0.3F) {
 								++i;
@@ -248,8 +248,8 @@ public class ZombieCreeper extends Creeper {
 		this.creeperConversionTime = p_191991_2_;
 		this.getEntityData().set(DATA_CONVERTING_ID, true);
 		this.removeEffect(MobEffects.WEAKNESS);
-		this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, p_191991_2_, Math.min(this.level.getDifficulty().getId() - 1, 0)));
-		this.level.broadcastEntityEvent(this, (byte)16);
+		this.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, p_191991_2_, Math.min(this.level().getDifficulty().getId() - 1, 0)));
+		this.level().broadcastEntityEvent(this, (byte)16);
 	}
 	private void finishConversion(ServerLevel p_213791_1_) {
 		Creeper creeperEntity = this.convertTo(EntityType.CREEPER, false);

@@ -1,10 +1,12 @@
 package wily.mozombieswave.init;
 
-import net.minecraft.data.worldgen.biome.OverworldBiomes;
+import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.OutgoingChatMessage;
+import net.minecraft.network.chat.PlayerChatMessage;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -18,15 +20,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.levelgen.Heightmap;
 import wily.mozombieswave.MoZombiesPlatform;
 import wily.mozombieswave.MoZombiesWave;
 import wily.mozombieswave.entity.*;
 import wily.mozombieswave.item.DiscoGlassesMaterial;
 
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import static wily.mozombieswave.MoZombiesPlatform.*;
@@ -34,7 +34,22 @@ import static wily.mozombieswave.MoZombiesPlatform.*;
 
 public class Registration {
 
-
+	public static final Supplier<CreativeModeTab> CREATIVE_TAB = registerCreativeTab("mozombies_wave",()->CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0).title(Component.translatable("itemGroup.mozombies_wave.tab")).icon(()-> Registration.DISCO_GLASSES.get().getDefaultInstance()).displayItems((f, b)->{
+		b.accept(Registration.SURVIVOR_SPAWN_EGG.get());
+		b.accept(Registration.DISCO_SPAWN_EGG.get());
+		b.accept(Registration.CHEF_SPAWN_EGG.get());
+		b.accept(Registration.CYBORG_SPAWN_EGG.get());
+		b.accept(Registration.HEROBRINE_SPAWN_EGG.get());
+		b.accept(Registration.KING_SPAWN_EGG.get());
+		b.accept(Registration.KNIGHT_SPAWN_EGG.get());
+		b.accept(Registration.MINER_SPAWN_EGG.get());
+		b.accept(Registration.NOTCH_SPAWN_EGG.get());
+		b.accept(Registration.PA_SPAWN_EGG.get());
+		b.accept(Registration.PIRATE_SPAWN_EGG.get());
+		b.accept(Registration.DWARF_SPAWN_EGG.get());
+		b.accept(Registration.NETHER_ZOMBIE_SPAWN_EGG.get());
+		b.accept(Registration.DISCO_GLASSES.get());
+	}).build());
 
 	public static CreativeModeTab getPlatformCreativeModeTab(CreativeModeTab.Builder builder){
 		return builder.title(Component.translatable("itemGroup.mozombies_wave.tab")).icon(()-> Registration.DISCO_GLASSES.get().getDefaultInstance()).displayItems((f, b)->{
@@ -129,6 +144,22 @@ public class Registration {
 		attribute.register(SURVIVOR.get(), Survivor::createAttributes);
 		attribute.register(ZOMBIE_CREEPER.get(), ZombieCreeper::createAttributes);
 	}
+	public static void registerEntitiesSpawnPlacement(MoZombiesPlatform.SpawnPlacementsRegister event){
+		event.register(Registration.DISCO_ZOMBIE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
+		event.register(Registration.NETHER_ZOMBIE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
+		event.register(Registration.ZOMBIE_DWARF.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
+		event.register(Registration.ZOMBIE_CHEF.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
+		event.register(Registration.ZOMBIE_CYBORG.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
+		event.register(Registration.ZOMBIE_HEROBRINE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
+		event.register(Registration.ZOMBIE_KING.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
+		event.register(Registration.ZOMBIE_KNIGHT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
+		event.register(Registration.ZOMBIE_NOTCH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
+		event.register(Registration.ZOMBIE_MINER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
+		event.register(Registration.ZOMBIE_PA.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
+		event.register(Registration.ZOMBIE_PIRATE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AbstractMoZombie::checkMonsterSpawnRules);
+		event.register(Registration.ZOMBIE_CREEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ZombieCreeper::checkMonsterSpawnRules);
+		event.register(Registration.SURVIVOR.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Survivor::checkMobSpawnRules);
+	}
 
 	public static void onEntityJoinWorld(Entity entity, Level level) {
 		if(entity instanceof Giant giant) {
@@ -137,7 +168,7 @@ public class Registration {
 			giant.goalSelector.addGoal(2, new MeleeAttackGoal(giant, 1.0D, false));
 			giant.goalSelector.addGoal(6, new MoveThroughVillageGoal(giant, 1.0D, true, 4, () -> true));
 			giant.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(giant, 1.0D));
-			giant.goalSelector.addGoal(1, (new HurtByTargetGoal(giant)).setAlertOthers(ZombifiedPiglin.class));
+			giant.goalSelector.addGoal(1, new HurtByTargetGoal(giant).setAlertOthers(ZombifiedPiglin.class));
 			giant.goalSelector.addGoal(2, new NearestAttackableTargetGoal<>(giant, ZombieNotch.class, true));
 			giant.goalSelector.addGoal(2, new NearestAttackableTargetGoal<>(giant, Player.class, true));
 			giant.goalSelector.addGoal(2, new NearestAttackableTargetGoal<>(giant, Villager.class, true));

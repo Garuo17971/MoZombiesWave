@@ -1,8 +1,6 @@
 package wily.mozombieswave.fabric;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraftforge.api.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
 import wily.mozombieswave.ForgeConfigCompat;
 import wily.mozombieswave.MoZombiesWave;
 

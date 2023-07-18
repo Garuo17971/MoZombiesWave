@@ -43,5 +43,10 @@ public class MoZombiesPlatformImpl {
         return new SpawnEggItem(entityType.get(),i,j,properties);
     }
 
+    public static Supplier<CreativeModeTab> registerCreativeTab(String name, Supplier<CreativeModeTab> sound) {
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,getModId(name),sound.get());
+        return () -> BuiltInRegistries.CREATIVE_MODE_TAB.get(getModId(name));
+    }
+
 
 }
