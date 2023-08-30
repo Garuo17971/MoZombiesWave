@@ -2,12 +2,6 @@
 package wily.mozombieswave.entity;
 
 
-import net.minecraft.client.model.ZombieModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.entity.AbstractZombieRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -18,7 +12,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.level.Level;
-import wily.mozombieswave.MoZombiesWave;
 
 public abstract class AbstractMoZombie extends Zombie {
 
@@ -62,22 +55,5 @@ public abstract class AbstractMoZombie extends Zombie {
 			this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Survivor.class, true));
 
 		}
-		
-		public static class MoZombieRenderer extends AbstractZombieRenderer<AbstractMoZombie, ZombieModel<AbstractMoZombie>> {
-			private String location;
 
-			public MoZombieRenderer(EntityRendererProvider.Context p_174456_, String name) {
-				this(p_174456_, ModelLayers.ZOMBIE, ModelLayers.ZOMBIE_INNER_ARMOR, ModelLayers.ZOMBIE_OUTER_ARMOR);
-				location = name;
-			}
-
-			public MoZombieRenderer(EntityRendererProvider.Context p_174458_, ModelLayerLocation p_174459_, ModelLayerLocation p_174460_, ModelLayerLocation p_174461_) {
-				super(p_174458_, new ZombieModel<>(p_174458_.bakeLayer(p_174459_)), new ZombieModel<>(p_174458_.bakeLayer(p_174460_)), new ZombieModel<>(p_174458_.bakeLayer(p_174461_)));
-			}
-
-			@Override
-			public ResourceLocation getTextureLocation(Zombie entity) {
-				return new ResourceLocation(MoZombiesWave.MODID, "textures/entity/" + location + ".png");
-			}
-		}
 	}

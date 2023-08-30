@@ -1,13 +1,11 @@
 
 package wily.mozombieswave.entity;
 
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -203,7 +201,7 @@ public class ZombieCreeper extends Creeper {
 		ItemStack itemstack = p_230254_1_.getItemInHand(p_230254_2_);
 		if (itemstack.getItem() == Items.GOLDEN_APPLE) {
 			if (this.hasEffect(MobEffects.WEAKNESS)) {
-				if (!p_230254_1_.getAbilities().instabuild) {
+				if (!p_230254_1_.abilities.instabuild) {
 					itemstack.shrink(1);
 				}
 
@@ -263,16 +261,6 @@ public class ZombieCreeper extends Creeper {
 			return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 45.0D).add(Attributes.MOVEMENT_SPEED, (double)0.3F).add(Attributes.ATTACK_DAMAGE, 0.0D).add(Attributes.ARMOR, 2.0D).add(Attributes.SPAWN_REINFORCEMENTS_CHANCE).add(Attributes.MAX_HEALTH,25D);
 		}
 	
-	public static class CreeperRenderer extends net.minecraft.client.renderer.entity.CreeperRenderer {
-		public CreeperRenderer(EntityRendererProvider.Context p_i50974_1_) {
-			super(p_i50974_1_);
-		}
 
-
-		@Override
-		public ResourceLocation getTextureLocation(Creeper entity) {
-			return new ResourceLocation(MoZombiesWave.MODID, "textures/entity/" + name +".png");
-		}
-	}
 	}
 

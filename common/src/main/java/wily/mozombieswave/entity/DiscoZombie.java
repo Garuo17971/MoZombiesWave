@@ -4,11 +4,8 @@ package wily.mozombieswave.entity;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
-
-import java.util.Random;
 
 	public class DiscoZombie extends AbstractMoZombie {
 		public DiscoZombie(EntityType<? extends AbstractMoZombie> entityType, Level world) {
